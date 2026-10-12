@@ -28,7 +28,7 @@
                         brand: {
                             dark: '#140c07',
                             card: '#21150e',
-                            lightBg: '#f5ecd7',     /* Warm Beige Color for Light Mode */
+                            lightBg: '#f5ecd7',
                             lightCard: '#fcf6e8',
                             glass: 'rgba(33, 21, 14, 0.75)',
                             lightGlass: 'rgba(245, 236, 215, 0.9)',
@@ -59,17 +59,15 @@
             overflow-x: hidden;
         }
 
-        /* Dark / Light Transitions */
         body.dark-mode {
             background-color: #140c07;
             color: #fdf6e7;
         }
         body.light-mode {
-            background-color: #f5ecd7; /* Warm beige background */
+            background-color: #f5ecd7;
             color: #2b1e16;
         }
 
-        /* Glassmorphism utility for Dark Mode */
         body.dark-mode .glass-panel {
             background: rgba(33, 21, 14, 0.75);
             backdrop-filter: blur(16px);
@@ -81,7 +79,6 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        /* Glassmorphism utility for Light Mode */
         body.light-mode .glass-panel {
             background: rgba(252, 246, 232, 0.9);
             backdrop-filter: blur(16px);
@@ -100,7 +97,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Custom scrollbar for panning */
         ::-webkit-scrollbar { height: 6px; width: 8px; }
         body.dark-mode ::-webkit-scrollbar-track { background: #140c07; }
         body.light-mode ::-webkit-scrollbar-track { background: #f5ecd7; }
@@ -139,7 +135,6 @@
     <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
             <div class="glass-panel rounded-full px-5 py-2.5 flex items-center justify-between shadow-xl">
-                <!-- Logo & Brand -->
                 <a href="#hero" class="flex items-center gap-3 group">
                     <div class="relative w-11 h-11 rounded-full p-0.5 bg-gradient-to-tr from-brand-gold via-brand-bubble to-brand-red shadow-glow transition-transform duration-500 group-hover:scale-110">
                         <img src="logo.PNG" onerror="this.src='https://placehold.co/100x100/9d2227/ffffff?text=MB'" alt="Mister Bubble Logo" class="w-full h-full object-cover rounded-full">
@@ -154,7 +149,6 @@
                     </div>
                 </a>
 
-                <!-- Desktop Nav -->
                 <nav class="hidden md:flex items-center space-x-1 lg:space-x-5 text-sm font-medium">
                     <a href="#hero" class="px-3 py-1.5 rounded-full hover:text-brand-gold transition-all">Home</a>
                     <a href="#menu" class="px-3 py-1.5 rounded-full hover:text-brand-gold transition-all">Menu & Prices</a>
@@ -163,12 +157,18 @@
                     <a href="#contact" class="px-3 py-1.5 rounded-full hover:text-brand-gold transition-all">Visit Us</a>
                 </nav>
 
-                <!-- Actions -->
                 <div class="flex items-center gap-2.5">
-                    <!-- Mode Clair / Mode Sombre Toggle Button -->
+                    <!-- Mode Clair / Mode Sombre Toggle -->
                     <button onclick="toggleTheme()" id="themeToggleBtn" class="flex items-center gap-2 bg-[#2b1e16] text-[#fdf6e7] hover:bg-[#3d2b20] px-3.5 py-2 rounded-full text-xs font-bold transition-all shadow-md border border-brand-gold/30" title="Switch Theme">
                         <i id="themeIcon" class="fa-solid fa-sun text-brand-gold"></i>
                         <span id="themeText" class="hidden sm:inline">Mode Clair</span>
+                    </button>
+
+                    <!-- Cart Order Counter Button -->
+                    <button onclick="toggleCartModal()" class="relative flex items-center gap-2 bg-[#2b1e16] text-[#e5a93c] hover:bg-[#3d2b20] px-3.5 py-2 rounded-full text-xs font-bold transition-all shadow-md border border-brand-gold/30">
+                        <i class="fa-solid fa-mug-hot text-brand-gold"></i>
+                        <span class="hidden sm:inline">Counter Order</span>
+                        <span id="cartCount" class="absolute -top-1 -right-1 bg-brand-red text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
                     </button>
 
                     <button onclick="toggleMenuModal()" class="hidden sm:flex items-center gap-2 bg-gradient-to-r from-brand-gold to-brand-goldLight text-brand-dark font-bold text-xs uppercase tracking-wider px-3.5 py-2 rounded-full shadow-glow hover:scale-105 transition-all shimmer-btn">
@@ -457,6 +457,33 @@
         </div>
     </footer>
 
+    <!-- Counter Order Wishlist Modal -->
+    <div id="cartModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
+        <div class="max-w-md w-full glass-panel rounded-3xl p-6 border border-brand-gold/40">
+            <div class="flex justify-between items-center pb-4 border-b border-brand-gold/20">
+                <h3 class="font-fredoka text-lg font-bold flex items-center gap-2">
+                    <i class="fa-solid fa-mug-hot text-brand-gold"></i> Counter Order Wishlist
+                </h3>
+                <button onclick="toggleCartModal()" class="text-white hover:text-brand-gold">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <div id="cartItemsList" class="py-4 space-y-3 max-h-60 overflow-y-auto">
+                <p class="text-xs text-center opacity-60 py-6">Your order wishlist is currently empty!</p>
+            </div>
+
+            <div class="pt-4 border-t border-brand-gold/20 flex justify-between items-center font-bold">
+                <span class="text-sm">Estimated Total:</span>
+                <span id="cartTotal" class="text-brand-gold text-lg">0 DA</span>
+            </div>
+
+            <button onclick="alert('Order Wishlist saved! Show this screen to our counter staff when you arrive at Mister Bubble!')" class="w-full mt-6 py-3 rounded-xl bg-gradient-to-r from-brand-gold to-brand-goldLight text-brand-dark font-bold text-xs uppercase tracking-wider shadow-glow">
+                Confirm & Show To Counter
+            </button>
+        </div>
+    </div>
+
     <!-- HD Menu Scans Modal -->
     <div id="menuModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-center justify-center p-4">
         <div class="relative max-w-4xl w-full glass-panel rounded-3xl p-6 border border-brand-gold/40 max-h-[90vh] flex flex-col">
@@ -497,7 +524,7 @@
     <script>
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // Theme Toggle Functionality (Mode Clair / Mode Sombre)
+        // Theme Toggle Functionality
         function toggleTheme() {
             const body = document.getElementById('bodyRoot');
             const icon = document.getElementById('themeIcon');
@@ -516,7 +543,7 @@
             }
         }
 
-        // Menu Data (menu1, 2, 3 items)
+        // Menu Items Data
         const menuCategories = ['All', 'Sweet Frappes', 'Milk Tea', 'Fruit Tea', 'ADE Drinks', 'Mojito', 'Fresh Juice', 'Waffles & Crêpes', 'Box Specials'];
         
         const menuItems = [
@@ -572,6 +599,7 @@
             { id: 50, name: 'Crêpe Noodles Box (Chocolate, Banana, Fruit)', category: 'Box Specials', price: '650 DA', desc: 'Crêpe noodles box with toppings.', tag: 'Menu 3' }
         ];
 
+        let cart = [];
         let currentCategory = 'All';
 
         function renderCategoryTabs() {
@@ -613,7 +641,7 @@
 
                     <div class="mt-5 pt-3 border-t border-brand-gold/20 flex justify-between items-center">
                         <span class="text-[10px] opacity-60 uppercase">${item.category}</span>
-                        <button onclick="alert('Added ${item.name} (${item.price}) to your counter order!')" class="px-4 py-2 rounded-full bg-[#2b1e16] text-[#e5a93c] hover:bg-[#3d2b20] text-xs font-bold transition-all shadow-md flex items-center gap-1.5">
+                        <button onclick="addToCart(${item.id})" class="px-4 py-2 rounded-full bg-[#2b1e16] text-[#e5a93c] hover:bg-[#3d2b20] text-xs font-bold transition-all shadow-md flex items-center gap-1.5">
                             <i class="fa-solid fa-plus text-[10px]"></i> Add
                         </button>
                     </div>
@@ -625,6 +653,55 @@
             currentCategory = cat;
             renderCategoryTabs();
             renderMenuItems();
+        }
+
+        // Cart Wishlist Functions
+        function addToCart(id) {
+            const item = menuItems.find(i => i.id === id);
+            if (item) {
+                cart.push(item);
+                updateCartUI();
+            }
+        }
+
+        function updateCartUI() {
+            document.getElementById('cartCount').textContent = cart.length;
+            const list = document.getElementById('cartItemsList');
+            const totalElem = document.getElementById('cartTotal');
+
+            if (cart.length === 0) {
+                list.innerHTML = `<p class="text-xs text-center opacity-60 py-6">Your order wishlist is currently empty!</p>`;
+                totalElem.textContent = '0 DA';
+                return;
+            }
+
+            let total = 0;
+            list.innerHTML = cart.map((item, index) => {
+                const numericPrice = parseInt(item.price);
+                total += numericPrice;
+                return `
+                    <div class="flex justify-between items-center glass-card p-3 rounded-xl">
+                        <div>
+                            <h4 class="text-xs font-bold">${item.name}</h4>
+                            <span class="text-[10px] text-brand-gold">${item.price}</span>
+                        </div>
+                        <button onclick="removeFromCart(${index})" class="opacity-60 hover:text-brand-red text-xs">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </div>
+                `;
+            }).join('');
+
+            totalElem.textContent = `${total} DA`;
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function toggleCartModal() {
+            document.getElementById('cartModal').classList.toggle('hidden');
         }
 
         function toggleMenuModal() {
